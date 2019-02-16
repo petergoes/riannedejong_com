@@ -1,7 +1,7 @@
 <template>
   <section class="content-section">
     <a :id="section.slug" class="content-section__scroll-anchor"></a>
-    <a :href="`#${section.slug}`">
+    <a v-if="section.title" :href="`#${section.slug}`">
       <h2 class="content-section__title">{{ section.title }}</h2>
     </a>
     <template v-for="(item, index) in section.items">
@@ -59,6 +59,7 @@
         :mute="item.mute"
       />
     </template>
+    <slot />
   </section>
 </template>
 

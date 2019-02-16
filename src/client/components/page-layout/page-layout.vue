@@ -19,6 +19,10 @@
           :key="index"
           :section="section"
         />
+
+        <content-section v-if="$children" :section="{ slug: 'nested' }" >
+          <slot />
+        </content-section>
       </div>
     </div>
   </div>

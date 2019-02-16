@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <page-layout :page="page" />
-
-    <lazy-tracking v-if="page.hasHotjar" />
+  <div class="page--index">
+    <page-layout :page="page">
+      <portfolio-overview :items="portfolioItems"/>
+    </page-layout>
   </div>
 </template>
 
 <script>
-import { LazyTracking, PageLayout } from '../components/'
+import PageLayout from '../components/page-layout'
+import PortfolioOverview from '../components/portfolio-overview'
 import { getPageData, seoHead } from '../lib/'
 
 export default {
-  components: { LazyTracking, PageLayout },
+  components: { PageLayout, PortfolioOverview },
 
   async asyncData ({ app }) {
-    const page = await getPageData({ folder: 'pages', slug: 'home', locale: app.i18n.locale })
-
-    return { page }
+    const pagePromise = getPageData({ folder: 'pages', slug: 'home', locale: app.i18n.locale })
+    const portfolioPromise = getPageData({ folder: 'portfolio', slug: 'index', locale: app.i18n.locale })
+    const [ page, portfolioItems ] = await Promise.all([ pagePromise, portfolioPromise ])
+    return { page, portfolioItems }
   },
 
   head () {
@@ -24,3 +26,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.page--index {
+  --max-width: 900px;
+}
+</style>

@@ -23,7 +23,6 @@ module.exports = (dato, root, i18n) => {
   root.createDataFile(`${dataDir}/menu.json`, 'json', menuToJson(dato, i18n))
   root.createDataFile(`${dataDir}/404.json`, 'json', notfoundToJson(dato, i18n))
   root.createDataFile(`${dataDir}/pages.json`, 'json', pageSlugMap(dato, i18n))
-  root.createDataFile(`${dataDir}/portfolio-items.json`, 'json', portfolioSlugMap(dato, i18n))
 
   locales.forEach(locale => {
     i18n.locale = locale
@@ -77,26 +76,12 @@ function pageSlugMap (dato, i18n) {
   }, {})
 }
 
-function portfolioSlugMap (dato, i18n) {
-  i18n.locale = defaultLocale
-  return dato.pages.reduce((list, page) => {
-    i18n.locale = defaultLocale
-    list[page.slug] = locales.reduce((out, locale) => {
-      i18n.locale = locale
-      if (page && page.slug) {
-        out[locale] = `portfolio/${page.slug}`
-      }
-      return out
-    }, {})
-    return list
-  }, {})
-}
-
 function portfolioOverview(dato, i18n) {
   i18n.locale = defaultLocale
   return dato.portfolios.reduce((list, { title, slug, coverImage }) => {
     i18n.locale = defaultLocale
-    list.push({ title, slug: `portfolio/${slug}`, coverImage })
+    const _coverImage = coverImage ? coverImage.toMap() : undefined
+    list.push({ title, slug: `${slug}`, coverImage: _coverImage })
     return list
   }, [])
 }
@@ -179,11 +164,11 @@ function portfolioToJson (page, i18n) {
       .map(transformItem)
   }))
 
-  const slug = page.slug ? `portfolio/${page.slug}/` : '' // makes sure there's always a trailing slash ending each route so we don't get different versions of same page
+  const slug = page.slug ? `${page.slug}/` : '' // makes sure there's always a trailing slash ending each route so we don't get different versions of same page
   const url = `${URL}/${i18n.locale}/${slug}`
   const seo = page.seo && { ...page.seo.toMap(), url }
   const slugI18n = locales.reduce((out, locale) => {
-    i18n.withLocale(locale, () => out[locale] = `portfolio/${page.slug}/` || '')
+    i18n.withLocale(locale, () => out[locale] = `${page.slug}/` || '')
     return out
   }, {})
   const tocItems = sections.map(section => pick(section, ['title', 'slug']))

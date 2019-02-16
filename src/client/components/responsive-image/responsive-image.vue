@@ -8,11 +8,11 @@
         <lazy-load>
           <picture class="responsive-image__picture" v-if="width">
             <!--[if IE 9]><video style="display: none;"><![endif]-->
-            <source type="image/webp" :srcset="imageUrl({ fm: 'webp', w: width })">
-            <source :type="`image/${image.format}`" :srcset="imageUrl({ w: width })">
+            <source type="image/webp" :srcset="imageUrl({ fm: 'webp', w: width, h: height })">
+            <source :type="`image/${image.format}`" :srcset="imageUrl({ w: width, h: height })">
             <!--[if IE 9]></video><![endif]-->
             <transition name="fade">
-              <img class="responsive-image__img" v-show="isLoaded" :alt="image.alt" :src="imageUrl({ w: width })" @load="onLoad"/>
+              <img class="responsive-image__img" v-show="isLoaded" :alt="image.alt" :src="imageUrl({ w: width, h: height })" @load="onLoad"/>
             </transition>
           </picture>
         </lazy-load>
@@ -56,8 +56,11 @@ export default {
   mounted() {
     const pixelRatio = window.devicePixelRatio || 1
     const cssWidth = this.$el.getBoundingClientRect().width
+    const cssHeight = this.$el.getBoundingClientRect().height
     const width = Math.ceil(cssWidth * pixelRatio / this.widthStep) * this.widthStep
+    const height = Math.ceil(cssHeight * pixelRatio / this.widthStep) * this.widthStep
     this.width = Math.min(width, this.image.width)
+    this.height = Math.min(height, this.image.height)
   },
   computed: {
     isVector() {
