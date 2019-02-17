@@ -1,7 +1,7 @@
 <template>
   <section class="content-section">
     <a :id="section.slug" class="content-section__scroll-anchor"></a>
-    <a v-if="section.title" :href="`#${section.slug}`">
+    <a v-if="section.includeTitle" :href="`#${section.slug}`">
       <h2 class="content-section__title">{{ section.title }}</h2>
     </a>
     <template v-for="(item, index) in section.items">
@@ -30,6 +30,10 @@
         :image="item.image"
         :inverse-layout=item.inverseLayout
         :call-to-action="item.callToAction" />
+      <image-gallery
+        v-if="item.type === 'image_list'"
+        :key="index"
+        :images="item.images" />
       <feature-list
         v-if="item.type === 'feature_list'"
         :key="index"
@@ -68,8 +72,9 @@ import ButtonGroup from '../button-group'
 import ContactForm from '../contact-form'
 import DownloadFiles from '../download-files'
 import EmailForm from '../email-form'
-import IllustratedContent from '../illustrated-content'
 import FeatureList from '../feature-list'
+import IllustratedContent from '../illustrated-content'
+import ImageGallery from '../image-gallery'
 import LinkList from '../link-list'
 import ResponsiveImage from '../responsive-image'
 import ResponsiveVideo from '../responsive-video'
@@ -83,10 +88,11 @@ export default {
     EmailForm,
     FeatureList,
     IllustratedContent,
+    ImageGallery,
     LinkList,
     ResponsiveImage,
     ResponsiveVideo,
-    RichText
+    RichText,
   },
   props: {
     section: {

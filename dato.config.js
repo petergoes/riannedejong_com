@@ -127,8 +127,9 @@ function pageToJson (page, i18n) {
 
   const sections = page.sections
   .filter(({ title, items }) => (typeof title === 'string' && items.length > 0))
-  .map(({ title, items }) => ({
+  .map(({ title, includeTitle, items }) => ({
     title,
+    includeTitle,
     slug: title && slugify(title, { lower: true }),
     items: items.toMap()
       .map(item => ({ ...item, type: item.itemType }))
@@ -155,8 +156,9 @@ function portfolioToJson (page, i18n) {
 
   const sections = page.sections
   .filter(({ title, items }) => (typeof title === 'string' && items.length > 0))
-  .map(({ title, items }) => ({
+  .map(({ title, includeTitle, items }) => ({
     title,
+    includeTitle,
     slug: title && slugify(title, { lower: true }),
     items: items.toMap()
       .map(item => ({ ...item, type: item.itemType }))
