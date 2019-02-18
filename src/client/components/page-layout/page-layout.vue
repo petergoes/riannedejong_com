@@ -48,7 +48,7 @@ export default {
 .page-layout__body {
   margin: 0 auto;
   padding: 0 var(--spacing-default);
-  max-width: 920px;
+  max-width: var(--max-page-width);
 }
 
 .page-layout__sidebar {
