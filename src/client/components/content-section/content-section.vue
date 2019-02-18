@@ -121,7 +121,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 3rem;
-  max-width: var(--max-width);
 }
 
 .content-section__title {

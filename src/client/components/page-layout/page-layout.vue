@@ -5,7 +5,7 @@
       :subtitle="page.subtitle"
       :image="page.coverImage" />
 
-    <div class="page-layout__body">
+    <div class="page-layout__body" :class="{'page-layout--with-sidebar': page.hasToc && page.tocItems.length}">
       <div
         v-if="page.hasToc && page.tocItems.length"
         class="page-layout__sidebar"
@@ -55,6 +55,10 @@ export default {
   margin: 0 auto var(--spacing-double) auto;
   width: 100%;
   max-width: var(--max-width);
+}
+
+.page-layout__sections {
+  flex: 1;
 }
 
 @media screen and (min-width: 880px) {

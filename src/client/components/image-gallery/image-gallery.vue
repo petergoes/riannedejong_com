@@ -11,15 +11,22 @@
   padding: 0;
   list-style: none;
   display: flex;
-  width: var(--max-width);
   align-items: center;
   overflow: scroll;
 }
 
 .image-gallery__image {
-  flex-basis: 90%;
+  flex-basis: 95%;
   flex-shrink: 0;
   padding: var(--spacing-default);
+}
+
+.image-gallery__image:first-child {
+  padding-left: 0;
+}
+
+.image-gallery__image:last-child {
+  padding-right: 0;
 }
 </style>
 
